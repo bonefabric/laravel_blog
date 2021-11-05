@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "The Laravel Framework Blog Application",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
+		"roave/security-advisories": "dev-latest",
+		"facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
