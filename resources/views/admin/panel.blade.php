@@ -1,5 +1,5 @@
-@extends('templates.base')
+@extends('admin.templates.base')
 
-@section('body')
-	panel
+@section('content')
+	test
 @endsection

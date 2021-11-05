@@ -4,12 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 /** User */
 
-Route::group(['middleware' => 'guest'], function () {
-
-	Route::get('/', function () {
-		return view('welcome');
-	});
-
+Route::get('/', function () {
+	return view('welcome');
 });
 
 /** End user */
@@ -23,9 +19,14 @@ Route::view('/login', 'admin.login')
 Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])
 	->middleware('guest');
 
+Route::post('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])
+	->middleware('auth')
+	->name('logout');
+
+
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
-	Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'panel']);
+	Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'panel'])->name('admin');
 
 });
 

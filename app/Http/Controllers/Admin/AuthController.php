@@ -29,4 +29,13 @@ class AuthController extends Controller
 		}
 	}
 
+	/**
+	 * @return RedirectResponse
+	 */
+	public function logout(): RedirectResponse
+	{
+		Auth::logout();
+		return redirect()->to('/');
+	}
+
 }
