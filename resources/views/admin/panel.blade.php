@@ -1,5 +1,5 @@
 @extends('templates.base')
 
 @section('body')
-	Main page
+	panel
 @endsection
