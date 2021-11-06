@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -14,11 +11,11 @@ class PostsController extends Controller
 {
 
 	/**
-	 * @return Application|Factory|View
+	 * @return Response
 	 */
-	public function index()
+	public function index(): Response
 	{
-		return view('admin.posts.index')->with('posts', Post::withTrashed()->get()->toArray());
+		return new Response(view('admin.posts.index')->with('posts', Post::withTrashed()->get()->toArray()));
 	}
 
 	/**
@@ -48,9 +45,11 @@ class PostsController extends Controller
 	 * @param int $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(int $id): Response
 	{
-		//
+		/** @var Post $post */
+		$post = Post::findOrFail($id);
+		return new Response(view('admin.posts.show')->with('post', $post->toArray()));
 	}
 
 	/**

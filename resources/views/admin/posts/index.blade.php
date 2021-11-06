@@ -16,8 +16,12 @@
 		@foreach($posts as $post)
 			<tr>
 				<td class="col-1">{{ $post['id'] }}</td>
-				<td class="col-2">{{ $post['title'] }}</td>
-				<td class="col-3">{{ substr($post['content'], 0, 100) . '...' }}</td>
+				<td class="col-2">
+					<a class="link-info" href="{{ route('posts.show', ['post' => $post['id']]) }}">
+						{{ Str::limit($post['title'], 30) }}
+					</a>
+				</td>
+				<td class="col-3">{{ Str::limit($post['content'], 100) }}</td>
 				<td class="col-2">{{ $post['created_at'] }}</td>
 				<td class="col-2">{{ $post['updated_at'] }}</td>
 				<td class="col-2">{{ $post['deleted_at'] }}</td>
