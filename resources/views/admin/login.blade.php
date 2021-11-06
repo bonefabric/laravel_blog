@@ -6,7 +6,7 @@
 			<div class="mb-3">
 				<label for="inputEmail" class="form-label">Email address</label>
 				<input type="email" class="form-control @error('email') is-invalid @enderror" id="inputEmail"
-				       name="email">
+				       name="email" value="{{ old('email') }}">
 				@error('email')
 				<div class="invalid-feedback">
 					{{ $message }}
@@ -29,6 +29,11 @@
 			</div>
 			@csrf
 			<button type="submit" class="btn btn-primary">Submit</button>
+			@if(session('auth_error'))
+				<div class="alert alert-danger mt-3" role="alert">
+					{{ session('auth_error') }}
+				</div>
+			@endif
 		</form>
 	</div>
 @endsection

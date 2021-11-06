@@ -27,6 +27,7 @@ class AuthController extends Controller
 		], $request->filled('remember'))) {
 			return redirect()->to('admin');
 		}
+		return redirect()->back()->with('auth_error', 'Login failed')->withInput();
 	}
 
 	/**
