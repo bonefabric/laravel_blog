@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
 	Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'panel'])->name('admin');
 
+	Route::resource('/posts', \App\Http\Controllers\Admin\PostsController::class);
+
 });
 
 /** End admin */
