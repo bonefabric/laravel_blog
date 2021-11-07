@@ -8,6 +8,8 @@ use DateTimeImmutable;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -53,5 +55,13 @@ class Post extends Model
 			return '';
 		}
 		return (new DateTime($value))->format('d-m-Y H:i:s');
+	}
+
+	/**
+	 * @return BelongsToMany
+	 */
+	public function tags(): BelongsToMany
+	{
+		return $this->belongsToMany(Tag::class, 'post_tags', 'post_ref', 'tag_ref');
 	}
 }
