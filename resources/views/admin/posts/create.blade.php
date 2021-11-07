@@ -1,11 +1,11 @@
 @extends('admin.templates.base')
 
 @section('content')
-	<form action="{{ route('posts.update', ['post' => $post['id']]) }}" method="post">
+	<form action="{{ route('posts.store') }}" method="post">
 		<div class="mb-3">
 			<label for="inputTitle" class="form-label">Title</label>
 			<input type="text" class="form-control @error('title') is-invalid @enderror" id="inputTitle"
-			       value="{{ $post['title'] }}" name="title">
+			       value="{{ old('title') }}" name="title">
 			@error('title')
 			<div class="invalid-feedback">
 				{{ $message }}
@@ -15,7 +15,7 @@
 		<div class="mb-3">
 			<label for="inputContent" class="form-label">Content</label>
 			<textarea class="form-control @error('content') is-invalid @enderror" id="inputContent" rows="20"
-			          name="content">{{ $post['content'] }}</textarea>
+			          name="content">{{ old('content') }}</textarea>
 			@error('content')
 			<div class="invalid-feedback">
 				{{ $message }}
@@ -23,7 +23,6 @@
 			@enderror
 		</div>
 		@csrf
-		@method('patch')
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 @endsection

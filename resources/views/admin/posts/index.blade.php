@@ -1,6 +1,7 @@
 @extends('admin.templates.base')
 
 @section('content')
+	<a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Create</a>
 	<table class="table table-dark table-hover">
 		<thead>
 		<tr>

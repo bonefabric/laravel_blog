@@ -24,20 +24,26 @@ class PostsController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(): Response
 	{
-		//
+		return new Response(view('admin.posts.create'));
 	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param Request $request
-	 * @return Response
+	 * @return RedirectResponse
 	 */
-	public function store(Request $request)
+	public function store(Request $request): RedirectResponse
 	{
-		//
+		$request->validate([
+			'title' => 'required',
+			'content' => 'required',
+		]);
+		/** @var Post $post */
+		$post = Post::create($request->only(['title', 'content']));
+		return new RedirectResponse(route('posts.show', ['post' => $post->id]));
 	}
 
 	/**
