@@ -55,7 +55,7 @@ class PostsController extends Controller
 	public function show(int $id): Response
 	{
 		/** @var Post $post */
-		$post = Post::findOrFail($id);
+		$post = Post::withTrashed()->findOrFail($id);
 		return new Response(view('admin.posts.show')->with('post', $post->toArray()));
 	}
 
@@ -68,7 +68,7 @@ class PostsController extends Controller
 	public function edit(int $id): Response
 	{
 		/** @var Post $post */
-		$post = Post::findOrFail($id);
+		$post = Post::withTrashed()->findOrFail($id);
 		return new Response(view('admin.posts.edit')->with('post', $post->toArray()));
 	}
 
@@ -86,7 +86,7 @@ class PostsController extends Controller
 			'content' => 'required|string'
 		]);
 		/** @var Post $post */
-		$post = Post::findOrFail($id);
+		$post = Post::withTrashed()->findOrFail($id);
 		$post->title = $request->input('title');
 		$post->content = $request->input('content');
 		$post->save();
@@ -97,10 +97,15 @@ class PostsController extends Controller
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return Response
+	 * @return RedirectResponse
 	 */
-	public function destroy($id)
+	public function destroy(Request $request, int $id): RedirectResponse
 	{
-		//
+		if ($request->input('restore')) {
+			Post::withTrashed()->restore();
+		} else {
+			Post::findOrFail($id)->delete();
+		}
+		return new RedirectResponse(route('posts.index'));
 	}
 }

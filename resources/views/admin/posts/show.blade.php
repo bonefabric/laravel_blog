@@ -4,7 +4,14 @@
 	<div class="card">
 		<h5 class="card-header">
 			<a href="{{ route('posts.edit', ['post' => $post['id']]) }}" class="btn btn-primary">Edit</a>
-			<a href="#" class="btn btn-primary">Delete</a>
+			<form action="{{ route('posts.destroy', ['post' => $post['id']]) }}" method="post" class="d-inline">
+				@if($post['deleted_at'])
+					<input type="hidden" name="restore" value="1">
+				@endif
+				@method('delete')
+				@csrf
+				<button class="btn btn-primary" type="submit">{{ $post['deleted_at'] ? 'Restore' : 'Delete' }}</button>
+			</form>
 		</h5>
 		<div class="card-body">
 			<p class="card-text">Created at: {{ $post['created_at'] }}</p>
