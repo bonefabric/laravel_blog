@@ -3,7 +3,7 @@
 @section('content')
 	<div class="card">
 		<h5 class="card-header">
-			<a href="#" class="btn btn-primary">Edit</a>
+			<a href="{{ route('posts.edit', ['post' => $post['id']]) }}" class="btn btn-primary">Edit</a>
 			<a href="#" class="btn btn-primary">Delete</a>
 		</h5>
 		<div class="card-body">

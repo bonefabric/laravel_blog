@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -58,9 +59,11 @@ class PostsController extends Controller
 	 * @param int $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(int $id): Response
 	{
-		//
+		/** @var Post $post */
+		$post = Post::findOrFail($id);
+		return new Response(view('admin.posts.edit')->with('post', $post->toArray()));
 	}
 
 	/**
@@ -68,11 +71,20 @@ class PostsController extends Controller
 	 *
 	 * @param Request $request
 	 * @param int $id
-	 * @return Response
+	 * @return RedirectResponse
 	 */
-	public function update(Request $request, $id)
+	public function update(Request $request, int $id): RedirectResponse
 	{
-		//
+		$request->validate([
+			'title' => 'required|string',
+			'content' => 'required|string'
+		]);
+		/** @var Post $post */
+		$post = Post::findOrFail($id);
+		$post->title = $request->input('title');
+		$post->content = $request->input('content');
+		$post->save();
+		return new RedirectResponse(route('posts.index'));
 	}
 
 	/**
