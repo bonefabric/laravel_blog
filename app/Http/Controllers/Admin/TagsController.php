@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class PostsController extends Controller
+class TagsController extends Controller
 {
-
 	/**
+	 * Display a listing of the resource.
 	 * @return Response
 	 */
 	public function index(): Response
 	{
-		return new Response(view('admin.posts.index')->with('posts', Post::withTrashed()->get()->toArray()));
+		return new Response(view('admin.tags.index')->with('tags', Tag::withTrashed()->get()->toArray()));
 	}
 
 	/**
@@ -26,7 +27,7 @@ class PostsController extends Controller
 	 */
 	public function create(): Response
 	{
-		return new Response(view('admin.posts.create'));
+		return new Response(view('admin.tags.create'));
 	}
 
 	/**
@@ -38,12 +39,11 @@ class PostsController extends Controller
 	public function store(Request $request): RedirectResponse
 	{
 		$request->validate([
-			'title' => 'required',
-			'content' => 'required',
+			'name' => 'required',
 		]);
-		/** @var Post $post */
-		$post = Post::create($request->only(['title', 'content']));
-		return new RedirectResponse(route('posts.show', ['post' => $post->id]));
+		/** @var Tag $tag */
+		$tag = Tag::create($request->only(['name']));
+		return new RedirectResponse(route('tags.show', ['tag' => $tag->id]));
 	}
 
 	/**
@@ -54,9 +54,8 @@ class PostsController extends Controller
 	 */
 	public function show(int $id): Response
 	{
-		/** @var Post $post */
-		$post = Post::withTrashed()->findOrFail($id);
-		return new Response(view('admin.posts.show')->with('post', $post->toArray()));
+		$tag = Tag::withTrashed()->findOrFail($id);
+		return new Response(view('admin.tags.show')->with('tag', $tag->toArray()));
 	}
 
 	/**
@@ -65,11 +64,10 @@ class PostsController extends Controller
 	 * @param int $id
 	 * @return Response
 	 */
-	public function edit(int $id): Response
+	public function edit($id)
 	{
-		/** @var Post $post */
-		$post = Post::withTrashed()->findOrFail($id);
-		return new Response(view('admin.posts.edit')->with('post', $post->toArray()));
+		$tag = Tag::withTrashed()->findOrFail($id);
+		return new Response(view('admin.tags.edit')->with('post', $tag->toArray()));
 	}
 
 	/**
@@ -82,15 +80,12 @@ class PostsController extends Controller
 	public function update(Request $request, int $id): RedirectResponse
 	{
 		$request->validate([
-			'title' => 'required|string',
-			'content' => 'required|string'
+			'name' => 'required',
 		]);
-		/** @var Post $post */
-		$post = Post::withTrashed()->findOrFail($id);
-		$post->title = $request->input('title');
-		$post->content = $request->input('content');
-		$post->save();
-		return new RedirectResponse(route('posts.index'));
+		$tag = Tag::withTrashed()->findOrFail($id);
+		$tag->name = $request->input('name');
+		$tag->save();
+		return new RedirectResponse(route('tags.index'));
 	}
 
 	/**
@@ -102,12 +97,12 @@ class PostsController extends Controller
 	public function destroy(Request $request, int $id): RedirectResponse
 	{
 		if ($request->input('restore')) {
-			/** @var Post $post */
-			$post = Post::withTrashed()->findOrFail($id);
-			$post->restore();
+			/** @var Tag $tag */
+			$tag = Tag::withTrashed()->findOrFail($id);
+			$tag->restore();
 		} else {
-			Post::findOrFail($id)->delete();
+			Tag::findOrFail($id)->delete();
 		}
-		return new RedirectResponse(route('posts.index'));
+		return new RedirectResponse(route('tags.index'));
 	}
 }
