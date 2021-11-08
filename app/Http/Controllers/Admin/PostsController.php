@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -96,6 +97,7 @@ class PostsController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
+	 * @param Request $request
 	 * @param int $id
 	 * @return RedirectResponse
 	 */
@@ -108,6 +110,40 @@ class PostsController extends Controller
 		} else {
 			Post::findOrFail($id)->delete();
 		}
+		return new RedirectResponse(route('posts.index'));
+	}
+
+	/**
+	 * @param int $id
+	 * @return Response
+	 */
+	public function tags(int $id): Response
+	{
+		/** @var Post $post */
+		$post = Post::findOrFail($id);
+		return new Response(view('admin.posts.tags')
+			->with('tags', Tag::all())
+			->with('post', $post->toArray()));
+	}
+
+	/**
+	 * @param Request $request
+	 * @param int $id
+	 * @return RedirectResponse
+	 */
+	public function updateTags(Request $request, int $id): RedirectResponse
+	{
+		/** @var Post $post */
+		$post = Post::withTrashed()->findOrFail($id);
+
+		$tagsIds = [];
+		foreach ($request->all() as $k => $param) {
+			if (strpos($k, 'tag_') === 0) {
+				$tagsIds[] = (int)substr($k, 4);
+			}
+		}
+		$post->tags()->detach();
+		$post->tags()->attach($tagsIds);
 		return new RedirectResponse(route('posts.index'));
 	}
 }

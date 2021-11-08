@@ -29,6 +29,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 	Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'panel'])->name('admin');
 
 	Route::resource('/posts', \App\Http\Controllers\Admin\PostsController::class);
+	Route::get('/posts/{post}/tags', [\App\Http\Controllers\Admin\PostsController::class, 'tags'])->name('posts.tags');
+	Route::post('/posts/{post}/tags', [\App\Http\Controllers\Admin\PostsController::class, 'updateTags'])->name('posts.updateTags');
+
 	Route::resource('/tags', \App\Http\Controllers\Admin\TagsController::class);
 
 });

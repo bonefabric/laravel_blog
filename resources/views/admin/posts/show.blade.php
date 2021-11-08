@@ -4,6 +4,7 @@
 	<div class="card">
 		<h5 class="card-header">
 			<a href="{{ route('posts.edit', ['post' => $post['id']]) }}" class="btn btn-primary">Edit</a>
+			<a href="{{ route('posts.tags', ['post' => $post['id']]) }}" class="btn btn-primary">Tags</a>
 			<form action="{{ route('posts.destroy', ['post' => $post['id']]) }}" method="post" class="d-inline">
 				@if($post['deleted_at'])
 					<input type="hidden" name="restore" value="1">
