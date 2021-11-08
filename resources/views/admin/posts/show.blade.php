@@ -16,6 +16,14 @@
 		</h5>
 		<div class="card-body">
 			<p class="card-text">Created at: {{ $post['created_at'] }}</p>
+			<p class="card-text">Tags:
+				@foreach($tags as $tag)
+					<span>
+						<a href="{{ route('tags.show', ['tag' => $tag['pivot']['tag_ref']]) }}" class="link-info">{{ $tag['name'] }}</a>
+					</span>
+					 |
+				@endforeach
+			</p>
 			<p class="card-text">Updated at: {{ $post['updated_at'] }}</p>
 			<p class="card-text">Deleted at: {{ $post['deleted_at'] }}</p>
 			<h5 class="card-title">{{ $post['title'] }}</h5>

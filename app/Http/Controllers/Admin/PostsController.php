@@ -57,7 +57,9 @@ class PostsController extends Controller
 	{
 		/** @var Post $post */
 		$post = Post::withTrashed()->findOrFail($id);
-		return new Response(view('admin.posts.show')->with('post', $post->toArray()));
+		return new Response(view('admin.posts.show')
+			->with('post', $post->toArray())
+			->with('tags', $post->tags()->get(['name'])->toArray()));
 	}
 
 	/**
