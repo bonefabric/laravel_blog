@@ -7,6 +7,9 @@
 			<li class="nav-item">
 				<a class="nav-link{{ Route::is('posts.index') ? ' active' : '' }}" href="{{ route('posts.index') }}">Posts</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link{{ Route::is('tags.index') ? ' active' : '' }}" href="{{ route('tags.index') }}">Tags</a>
+			</li>
 		</ul>
 		<div class="navbar-nav">
 			<form action="{{ route('logout') }}" method="post">
