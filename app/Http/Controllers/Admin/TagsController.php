@@ -64,10 +64,10 @@ class TagsController extends Controller
 	 * @param int $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(int $id): Response
 	{
 		$tag = Tag::withTrashed()->findOrFail($id);
-		return new Response(view('admin.tags.edit')->with('post', $tag->toArray()));
+		return new Response(view('admin.tags.edit')->with('tag', $tag->toArray()));
 	}
 
 	/**
